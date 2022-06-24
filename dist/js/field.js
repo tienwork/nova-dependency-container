@@ -97,7 +97,7 @@ function _arrayLikeToArray(arr, len) { if (len == null || len > arr.length) len 
       var _this = this;
 
       callback = callback || null;
-      root.$children.forEach(function (component) {
+      (0,_utils__WEBPACK_IMPORTED_MODULE_1__.walk)(root.$.subTree, function (component) {
         if (_this.componentIsDependency(component)) {
           // @todo: change `findWatchableComponentAttribute` to return initial state(s) of current dependency.
           var attribute = _this.findWatchableComponentAttribute(component),

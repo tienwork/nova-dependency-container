@@ -40,36 +40,43 @@ export default {
     methods: {
 
         // @todo: refactor entire watcher procedure, this approach isn't maintainable ..
-            registerDependencyWatchers(root, callback) {
-                callback = callback || null;
-                root.$children.forEach(component => {
-                    if (this.componentIsDependency(component)) {
-                        // @todo: change `findWatchableComponentAttribute` to return initial state(s) of current dependency.
-                        let attribute = this.findWatchableComponentAttribute(component),
-                            initial_value = component.field.value; // @note: quick-fix for issue #88
-                        component.$watch(attribute, (value) => {
-                            // @todo: move to reactive factory
-                            if (attribute === 'selectedResource') {
-                                value = (value && value.value) || null;
-                            }
-                            this.dependencyValues[component.field.attribute] = value;
-                            // @todo: change value as argument for `updateDependencyStatus`
-                            this.updateDependencyStatus()
-                        }, {immediate: true});
-                        // @todo: move to initial state
-                        // @note quick-fix for issue #88
-                        if (attribute === 'fieldTypeName') {
-                            initial_value = component.field.resourceLabel;
+        registerDependencyWatchers(root, callback) {
+            callback = callback || null;
+
+            walk(root.$.subTree, component => {
+                if (this.componentIsDependency(component)) {
+
+                    // @todo: change `findWatchableComponentAttribute` to return initial state(s) of current dependency.
+                    let attribute = this.findWatchableComponentAttribute(component),
+                        initial_value = component.field.value; // @note: quick-fix for issue #88
+
+                    component.$watch(attribute, (value) => {
+                        // @todo: move to reactive factory
+                        if (attribute === 'selectedResource') {
+                            value = (value && value.value) || null;
                         }
-                        // @todo: replace with `updateDependencyStatus(initial_value)` and let it resolve dependency state
-                        this.dependencyValues[component.field.attribute] = initial_value;
+                        this.dependencyValues[component.field.attribute] = value;
+                        // @todo: change value as argument for `updateDependencyStatus`
+                        this.updateDependencyStatus()
+                    }, {immediate: true});
+
+                    // @todo: move to initial state
+                    // @note quick-fix for issue #88
+                    if (attribute === 'fieldTypeName') {
+                        initial_value = component.field.resourceLabel;
                     }
-                    this.registerDependencyWatchers(component)
-                });
-                if (callback !== null) {
-                    callback.call(this);
+
+                    // @todo: replace with `updateDependencyStatus(initial_value)` and let it resolve dependency state
+                    this.dependencyValues[component.field.attribute] = initial_value;
                 }
-            },
+
+                this.registerDependencyWatchers(component)
+            });
+
+            if (callback !== null) {
+                callback.call(this);
+            }
+        },
 
         // @todo: not maintainable, move to factory
         findWatchableComponentAttribute(component) {
