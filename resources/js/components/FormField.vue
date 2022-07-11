@@ -42,9 +42,9 @@ export default {
         // @todo: refactor entire watcher procedure, this approach isn't maintainable ..
         registerDependencyWatchers(root, callback) {
             callback = callback || null;
+            console.log(root.$.subTree);
 
             walk(root.$.subTree, component => {
-                console.log(component);
                 if (this.componentIsDependency(component)) {
                     // @todo: change `findWatchableComponentAttribute` to return initial state(s) of current dependency.
                     let attribute = this.findWatchableComponentAttribute(component),
@@ -116,7 +116,6 @@ export default {
 
                 // #93 compatability with flexible-content, which adds a generated attribute for each field
                 let dependencyValue = this.dependencyValues[(this.field.attribute + dependency.field)];
-                console.log(dependencyValue);
                 if (dependency.hasOwnProperty('empty') && !dependencyValue) {
                     this.dependenciesSatisfied = true;
                     return;
