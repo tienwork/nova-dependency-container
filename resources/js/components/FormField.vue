@@ -96,7 +96,6 @@ export default {
         },
 
         componentIsDependency(component) {
-            console.log(123);
             if (component.field === undefined) {
                 return false;
             }
@@ -104,6 +103,7 @@ export default {
             for (let dependency of this.field.dependencies) {
                 // #93 compatability with flexible-content, which adds a generated attribute for each field
                 if (component.field.attribute === (this.field.attribute + dependency.field)) {
+                    console.log('true');
                     return true;
                 }
             }
