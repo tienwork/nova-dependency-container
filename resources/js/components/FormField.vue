@@ -103,7 +103,7 @@ export default {
             for (let dependency of this.field.dependencies) {
                 // #93 compatability with flexible-content, which adds a generated attribute for each field
                 if (component.field.attribute === (this.field.attribute + dependency.field)) {
-                    console.log('true');
+                    console.log('test')
                     return true;
                 }
             }
