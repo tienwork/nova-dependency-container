@@ -44,8 +44,8 @@ export default {
             callback = callback || null;
 
             walk(root.$.subTree, component => {
+                console.log(component);
                 if (this.componentIsDependency(component)) {
-
                     // @todo: change `findWatchableComponentAttribute` to return initial state(s) of current dependency.
                     let attribute = this.findWatchableComponentAttribute(component),
                         initial_value = component.field.value; // @note: quick-fix for issue #88
@@ -103,7 +103,6 @@ export default {
             for (let dependency of this.field.dependencies) {
                 // #93 compatability with flexible-content, which adds a generated attribute for each field
                 if (component.field.attribute === (this.field.attribute + dependency.field)) {
-                    console.log('test')
                     return true;
                 }
             }
