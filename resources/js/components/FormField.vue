@@ -25,6 +25,7 @@ export default {
     props: ['resourceName', 'resourceId', 'field'],
 
     mounted() {
+        console.log(root.$.subTree);
         this.registerDependencyWatchers(this.$root, function () {
             this.updateDependencyStatus();
         });
@@ -42,7 +43,7 @@ export default {
         // @todo: refactor entire watcher procedure, this approach isn't maintainable ..
         registerDependencyWatchers(root, callback) {
             callback = callback || null;
-            console.log(root.$.subTree);
+            
 
             walk(root.$.subTree, component => {
                 if (this.componentIsDependency(component)) {
