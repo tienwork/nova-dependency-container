@@ -25,7 +25,6 @@ export default {
     props: ['resourceName', 'resourceId', 'field'],
 
     mounted() {
-        console.log(this.$root.$.subTree);
         this.registerDependencyWatchers(this.$root, function () {
             this.updateDependencyStatus();
         });
