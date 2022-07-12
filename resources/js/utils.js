@@ -5,7 +5,7 @@
  */
 export function walk(vnode, cb) {
     if (!vnode) return;
-    console.log('test-1')
+
     if (vnode.component) {
         const proxy = vnode.component.proxy;
         if (proxy) cb(vnode.component.proxy);
