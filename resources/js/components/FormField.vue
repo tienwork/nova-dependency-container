@@ -25,7 +25,7 @@ export default {
     props: ['resourceName', 'resourceId', 'field'],
 
     mounted() {
-        console.log(this.$refs);
+        console.log(this);
         this.registerDependencyWatchers(this.$root, function () {
             this.updateDependencyStatus();
         });
